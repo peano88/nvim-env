@@ -50,4 +50,8 @@ vim.keymap.set("n", "<leader>o", vim.cmd.ClangdSwitchSourceHeader)
 vim.keymap.set("n", "<A-q>", vim.cmd.q)
 -- this is bad, but whatever
 vim.keymap.set({"n", "i"}, "<C-s>", vim.cmd.w)
+-- complete path of current file
+vim.keymap.set("n", "<leader>wf", function()
+    print(vim.fn.expand('%:p'))
+end)
 
