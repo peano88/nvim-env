@@ -59,7 +59,13 @@ local servers_list = {
     pylsp = {
         exec = 'pylsp'
     },
-    bashls = {}
+    bashls = {
+        exec = 'bash-language-server'
+    },
+    yamlls = {
+        exec = 'yaml-language-server'
+    }
+
 }
 
 local luasnip = require 'luasnip'
