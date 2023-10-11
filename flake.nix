@@ -1,12 +1,21 @@
 {
   description = "My own Neovim flake";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    };
     flake-utils.url = "github:numtide/flake-utils";
+    #vim-extra-plugins.url = "github:m15a/nixpkgs-vim-extra-plugins";
+    vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins/pr2";
   };
   outputs = inputs @ { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; };
+      let pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+            inputs.vim-extra-plugins.overlays.default
+        ];
+      };
       in
       rec	{
         packages.lbnvim = pkgs.wrapNeovim pkgs.neovim-unwrapped {
@@ -57,6 +66,7 @@
                 vim-fugitive
                 harpoon
                 nvim-ufo
+                pkgs.vimExtraPlugins.guihua-lua
               ];
               opt = with pkgs.vimPlugins; [
               ];
