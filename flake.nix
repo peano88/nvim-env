@@ -67,6 +67,7 @@
                 harpoon
                 nvim-ufo
                 pkgs.vimExtraPlugins.guihua-lua
+                refactoring-nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];
