@@ -46,6 +46,7 @@
                 nvim-dap-go
                 nvim-dap-ui
                 nvim-dap
+                nvim-dap-virtual-text
                 (nvim-treesitter.withPlugins (p: [
                   p.tree-sitter-yaml
                   p.tree-sitter-vim
