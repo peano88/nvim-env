@@ -25,6 +25,7 @@ telescope.setup({
     extensions = {
         file_browser = {
             hijack_netrw = true,
+            display_stat = { date = false, size = false, mode = false }
         },
     },
 })

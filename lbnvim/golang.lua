@@ -9,3 +9,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     group = format_sync_grp,
 })
 
+vim.keymap.set("n", "<leader>gf", vim.cmd.GoTestFunc)
+vim.keymap.set("n", "<leader>gl", vim.cmd.GoLint)
+
