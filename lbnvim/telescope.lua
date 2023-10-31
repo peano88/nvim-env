@@ -42,7 +42,7 @@ end)
 vim.api.nvim_create_autocmd("User", {
     pattern = "TelescopePreviewerLoaded",
     callback = function (args)
-        if args.data.filetype == nil then
+        if vim.fn.isdirectory(args.data.bufname) ~= 0 then
             vim.wo.wrap = true
             vim.wo.number = true
         end
