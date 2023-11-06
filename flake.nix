@@ -69,6 +69,7 @@
                 nvim-ufo
                 pkgs.vimExtraPlugins.guihua-lua
                 refactoring-nvim
+                glow-nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];
