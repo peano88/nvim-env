@@ -64,6 +64,10 @@ local servers_list = {
     },
     yamlls = {
         exec = 'yaml-language-server'
+    },
+    jsonls = {
+        exec = 'vscode-json-languageserver',
+        cmd = {'vscode-json-languageserver', '--stdio'}
     }
 
 }
@@ -151,12 +155,21 @@ end
 
 for server, values in pairs(servers_list) do
     if (values.exec == nil or values.exec == '' or vim.fn.executable(values.exec) == 1) then
-        lspconfig[server].setup {
+
+        local server_config = {
             settings = values.settings,
             capabilities = capabilities,
             on_attach = on_attach_server
         }
+
+    -- override cmd
+    if (values.cmd ~= nil) then
+        server_config.cmd = values.cmd
     end
+
+        lspconfig[server].setup(server_config)
+    end
+
 end
 
 
