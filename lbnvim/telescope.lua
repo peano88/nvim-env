@@ -38,6 +38,9 @@ vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fs', function()
 	builtin.live_grep({ glob_pattern = "!.git/*" });
 end)
+vim.keymap.set('n', '<leader>fw', function()
+    builtin.grep_string({search = vim.fn.expand('<cword>')})
+end)
 
 vim.api.nvim_create_autocmd("User", {
     pattern = "TelescopePreviewerLoaded",
