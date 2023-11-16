@@ -70,6 +70,9 @@
                 pkgs.vimExtraPlugins.guihua-lua
                 refactoring-nvim
                 glow-nvim
+                nvim-notify
+                vim-bazel
+                vim-maktaba
               ];
               opt = with pkgs.vimPlugins; [
               ];
