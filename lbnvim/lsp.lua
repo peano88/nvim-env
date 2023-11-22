@@ -10,6 +10,23 @@ capabilities.textDocument.foldingRange = {
     lineFoldingOnly = true
 }
 
+local gopls_settings = {
+            gopls = {
+                hints = {
+                    assignVariableTypes = true,
+                    compositeLiteralFields = true,
+                    compositeLiteralTypes = true,
+                    constantValues = true,
+                    functionTypeParameters = true,
+                    parameterNames = true,
+                    angeVariableTypes = true,
+                },
+            },
+}
+
+local go_bazel = require('lbnvim.go_bazel')
+go_bazel.add_bazel_settings(gopls_settings)
+
 local servers_list = {
     lua_ls = {
         settings = {
@@ -31,20 +48,7 @@ local servers_list = {
     },
     gopls = {
         exec = 'gopls',
-        settings = {
-            gopls = {
-                hints = {
-                    assignVariableTypes = true,
-                    compositeLiteralFields = true,
-                    compositeLiteralTypes = true,
-                    constantValues = true,
-                    functionTypeParameters = true,
-                    parameterNames = true,
-                    angeVariableTypes = true,
-                },
-            },
-
-        }
+        settings = gopls_settings
     },
     clangd = {
         exec = 'clangd',
