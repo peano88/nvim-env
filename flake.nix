@@ -73,6 +73,7 @@
                 nvim-notify
                 vim-bazel
                 vim-maktaba
+                copilot-lua
               ];
               opt = with pkgs.vimPlugins; [
               ];
