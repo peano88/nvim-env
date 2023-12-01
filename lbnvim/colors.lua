@@ -1,4 +1,4 @@
-function ColorMyPencils(color) 
+function ColorMyPencils(color)
 	color = color or "tokyonight-moon"
 	vim.cmd.colorscheme(color)
 
@@ -6,4 +6,5 @@ function ColorMyPencils(color)
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none"})
 end
 
-ColorMyPencils()
+-- set the colorscheme via env variable
+ColorMyPencils(os.getenv("VIM_COLORSCHEME"))

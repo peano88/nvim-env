@@ -1,8 +1,5 @@
 local lspconfig = require('lspconfig')
 
-
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
-
 -- Neovim hasn't added foldingRange to default capabilities, users must add it manually
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.foldingRange = {
@@ -131,10 +128,10 @@ cmp.setup {
 
 
 local sign_icons = {
-    error = ' ',
-    warn = ' ',
-    hint = ' ',
-    info = ' '
+    Error = '󰅚 ',
+    Warn = '󰀪 ',
+    Hint = '󰌶 ',
+    Info = '󰋽 '
 }
 
 for type, icon in pairs(sign_icons) do
@@ -144,7 +141,6 @@ end
 
 local on_attach_server = function(client, bufnr)
     local opts = { buffer = bufnr, remap = false }
-
     vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
     vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
     vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)

@@ -1,6 +1,6 @@
 require('lbnvim.settings')
 require('lbnvim.remap')
-require('lbnvim.evil_lualine')
+require('lbnvim.lualine')
 require('lbnvim.telescope')
 require('lbnvim.lsp')
 require('lbnvim.dap')

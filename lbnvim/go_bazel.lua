@@ -1,45 +1,31 @@
 local M = {}
 
-local function getFolderOfGoMod()
-    local currentDir = io.popen('pwd'):read('*l') -- Get the current directory
-    while true do
-        local goModPath = currentDir .. '/go.mod'
-        local goModFile = io.open(goModPath, 'r')
+local utils = require('lbnvim.utils')
 
-        if goModFile then
-            goModFile:close()
-            return currentDir
-        else
-            local _,_,parentDir = string.find(currentDir, '^/(.+)/')
-            if parentDir then
-                currentDir = '/'..parentDir -- Move to the parent directory
-            else
-                break                                              -- Reached the root directory
-            end
-        end
-    end
-
-    return nil -- go.mod file not found in any parent directory
-end
-
-local function getBazelEnabler()
-    local goModFolder = getFolderOfGoMod()
-    if goModFolder == nil then
+local function get_bazel_enabler()
+    local current_folder = io.popen('pwd'):read('*l')
+    local go_mod_folder = utils.get_first_folder_with_file(current_folder, 'go.mod')
+    if go_mod_folder == nil then
         return nil
     end
 
-    local goPackagesDriverPath = goModFolder .. '/tools/gopackagesdriver.sh'
-    local goPackagesDriverFile = io.open(goPackagesDriverPath, 'r')
-    if goPackagesDriverFile then
-        return goPackagesDriverPath
+    local go_packages_driver_path = go_mod_folder .. '/tools/gopackagesdriver.sh'
+    local go_packages_driver_file = io.open(go_packages_driver_path, 'r')
+    if go_packages_driver_file then
+        return go_packages_driver_path
     end
 end
 
 function M.add_bazel_settings(settings)
 
-    local go_packages_driver_path = getBazelEnabler()
+    local go_packages_driver_path = get_bazel_enabler()
     if go_packages_driver_path then
         require('notify')("go Bazel found")
+        -- name of the project based on the folder name
+        -- todo: maybe use a bazel parser?
+        local path_parts = utils.split_string(go_packages_driver_path, '/')
+        local project_name = path_parts[#path_parts - 2]
+
         local gopls_settings = settings.gopls
         gopls_settings['env'] = {
             GOPACKAGESDRIVER = go_packages_driver_path
@@ -48,7 +34,7 @@ function M.add_bazel_settings(settings)
             "-bazel-bin",
             "-bazel-out",
             "-bazel-testlogs",
-            "-bazel-mypkg",
+            "-bazel-"..project_name,
         }
         return
     end

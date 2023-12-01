@@ -40,7 +40,6 @@
                 telescope-nvim
                 telescope-file-browser-nvim
                 lualine-nvim
-                nvim-lightbulb
                 nvim-web-devicons
                 go-nvim
                 nvim-dap-go
