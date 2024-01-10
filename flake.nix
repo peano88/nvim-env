@@ -6,7 +6,7 @@
     };
     flake-utils.url = "github:numtide/flake-utils";
     #vim-extra-plugins.url = "github:m15a/nixpkgs-vim-extra-plugins";
-    vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins/pr2";
+    vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins";
   };
   outputs = inputs @ { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
