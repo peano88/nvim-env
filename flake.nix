@@ -7,6 +7,10 @@
     flake-utils.url = "github:numtide/flake-utils";
     #vim-extra-plugins.url = "github:m15a/nixpkgs-vim-extra-plugins";
     vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins";
+    copilot_chat = {
+        url = "github:gptlang/CopilotChat.nvim";
+        flake = false;
+    };
   };
   outputs = inputs @ { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -14,13 +18,31 @@
         inherit system;
         overlays = [
             inputs.vim-extra-plugins.overlays.default
+            (self: super: {
+                vimPlugins = super.vimPlugins // {
+                    copilot-chat = super.vimUtils.buildVimPlugin {
+                        pname = "copilot-chat.nvim";
+                        name = "copilot-chat.nvim";
+                        src = inputs.copilot_chat;
+                    };
+                };
+            })
         ];
       };
+      python_pkgs = ps: with ps; [
+        pynvim
+        python-dotenv
+        requests
+        prompt-toolkit
+      ];
+
       in
       rec	{
         packages.lbnvim = pkgs.wrapNeovim pkgs.neovim-unwrapped {
           viAlias = true;
           vimAlias = true;
+          withPython3 = true;
+          extraPython3Packages = python_pkgs;
           configure = {
             customRC =
               ''
@@ -73,6 +95,7 @@
                 vim-bazel
                 vim-maktaba
                 copilot-lua
+                copilot-chat
               ];
               opt = with pkgs.vimPlugins; [
               ];
@@ -86,6 +109,15 @@
         };
         packages.default = packages.lbnvim;
         apps.default = apps.lbnvim;
+        devShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            packages.lbnvim
+            git
+            fd
+            ripgrep
+            fzf
+            ];
+        };
 
       });
 }

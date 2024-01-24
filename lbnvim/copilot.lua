@@ -57,4 +57,26 @@ if requirements() then
             copilot_node_command = 'node', -- Node.js version must be > 18.x
             server_opts_overrides = {},
         })
+
+    vim.keymap.set('n', '<leader>cc', function()
+        if vim.fn.winnr('$') == 1 then
+            vim.cmd.vsplit()
+        end
+        vim.cmd.wincmd('l')
+        if vim.api.nvim_get_mode().mode == 'v' then
+            local bufnr = vim.api.nvim_get_current_buf()
+            local start_pos = vim.api.nvim_buf_get_mark(bufnr, "<")
+            local end_pos = vim.api.nvim_buf_get_mark(bufnr, ">")
+            local lines = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, end_pos[1], false)
+            local selected_text = table.concat(lines, "\n")
+            vim.cmd.CopilotChat(selected_text)
+        else
+            local user_input = vim.fn.input("Copilot prompt > ")
+            vim.cmd.CopilotChat(user_input)
+        end
+    end)
+
+    vim.keymap.set('v', '<leader>cc', function()
+        print("visual mode")
+    end)
 end
