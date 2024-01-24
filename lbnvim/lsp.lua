@@ -47,6 +47,9 @@ local servers_list = {
         exec = 'gopls',
         settings = gopls_settings
     },
+    golangci_lint_ls = {
+        exec = 'golangci-lint-langserver',
+    },
     clangd = {
         exec = 'clangd',
         settings = {
