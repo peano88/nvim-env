@@ -11,6 +11,10 @@
         url = "github:gptlang/CopilotChat.nvim";
         flake = false;
     };
+    presenting_nvim = {
+        url = "github:sotte/presenting.nvim";
+        flake = false;
+    };
   };
   outputs = inputs @ { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -24,6 +28,11 @@
                         pname = "copilot-chat.nvim";
                         name = "copilot-chat.nvim";
                         src = inputs.copilot_chat;
+                    };
+                    presenting_nvim = super.vimUtils.buildVimPlugin {
+                        pname = "presenting.nvim";
+                        name = "presenting.nvim";
+                        src = inputs.presenting_nvim;
                     };
                 };
             })
@@ -96,6 +105,7 @@
                 vim-maktaba
                 copilot-lua
                 copilot-chat
+                presenting_nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];
