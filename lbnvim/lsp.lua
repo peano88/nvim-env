@@ -72,7 +72,21 @@ local servers_list = {
     jsonls = {
         exec = 'vscode-json-languageserver',
         cmd = {'vscode-json-languageserver', '--stdio'}
-    }
+    },
+    sqls = {
+        exec = 'sqls',
+        settings = {
+            sqls = {
+                connections = {
+                    {
+                        driver = 'postgresql',
+                        dataSourceName = 'postgresql://postgres:postgres@localhost:5432'
+                    }
+                }
+            }
+        }
+    },
+
 
 }
 
