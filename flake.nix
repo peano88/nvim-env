@@ -106,6 +106,7 @@
                 copilot-lua
                 copilot-chat
                 presenting_nvim
+                which-key-nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];
