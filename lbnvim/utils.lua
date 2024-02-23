@@ -68,4 +68,18 @@ function M.join_strings(tokens, sep)
     return joined
 end
 
+function M.get_relative_directory(path, relative_to)
+    local _, _, relative_path = string.find(path, relative_to .. '/(.+)')
+    local directory = string.match(relative_path, '(.*)/')
+    return directory
+end
+
+function Test_get_relative_directory()
+    local path = '/home/user/project/src/main.go'
+    local relative_to = '/home/user/project'
+    local expected = 'src'
+    local result = M.get_relative_directory(path, relative_to)
+    assert(result == expected, 'get_relative_directory failed')
+end
+
 return M
