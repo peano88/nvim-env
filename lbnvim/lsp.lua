@@ -37,8 +37,8 @@ local servers_list = {
             }
         }
     },
-    rnix = {
-        exec = 'rnix-lsp'
+    nil_ls = {
+        exec = 'nil'
     },
     marksman = {
         exec = 'marksman'
