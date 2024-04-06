@@ -7,7 +7,7 @@ require('refactoring').setup({
     }
 })
 
-local telescope = require('telescope')
-telescope.load_extension('refactoring')
+local telescope_module = require('telescope')
+telescope_module.load_extension('refactoring')
 
-vim.keymap.set({'n', 'x'},'<leader>rr', function() telescope.extensions.refactoring.refactors() end)
+vim.keymap.set({'n', 'x'},'<leader>rr', function() telescope_module.extensions.refactoring.refactors() end)

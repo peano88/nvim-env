@@ -74,12 +74,45 @@ function M.get_relative_directory(path, relative_to)
     return directory
 end
 
+function M.issue_silent_command(command)
+    -- should run the command silently an return the output
+
+    local handle = io.popen(command)
+    if not handle then
+        return nil
+    end
+    local result = handle:read('*a')
+    handle:close()
+    return result
+end
+
 function Test_get_relative_directory()
     local path = '/home/user/project/src/main.go'
     local relative_to = '/home/user/project'
     local expected = 'src'
     local result = M.get_relative_directory(path, relative_to)
     assert(result == expected, 'get_relative_directory failed')
+end
+
+function Test_issue_silent_command()
+    local command = 'echo "hello"'
+    local expected = 'hello\n'
+    local result = M.issue_silent_command(command)
+    assert(result == expected, 'issue_silent_command failed')
+    local output = M.issue_silent_command('ls')
+    assert(output ~= nil, 'issue_silent_command failed')
+    local table_output = M.split_string(output, '\n')
+    print(table_output[1])
+end
+
+function M.select_buffer_by_name(name)
+    local buffers = vim.api.nvim_list_bufs()
+    for _, buf in ipairs(buffers) do
+        if vim.api.nvim_buf_get_name(buf) == name then
+            vim.api.nvim_set_current_buf(buf)
+            return
+        end
+    end
 end
 
 return M

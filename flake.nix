@@ -8,11 +8,15 @@
     #vim-extra-plugins.url = "github:m15a/nixpkgs-vim-extra-plugins";
     vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins";
     copilot_chat = {
-        url = "github:gptlang/CopilotChat.nvim";
+        url = "github:CopilotC-Nvim/CopilotChat.nvim";
         flake = false;
     };
     presenting_nvim = {
         url = "github:sotte/presenting.nvim";
+        flake = false;
+    };
+    bazel_nvim = {
+        url = "github:peano88/bazel_nvim";
         flake = false;
     };
   };
@@ -33,6 +37,11 @@
                         pname = "presenting.nvim";
                         name = "presenting.nvim";
                         src = inputs.presenting_nvim;
+                    };
+                    bazel_nvim = super.vimUtils.buildVimPlugin {
+                        pname = "bazel_nvim";
+                        name = "bazel_nvim";
+                        src = inputs.bazel_nvim;
                     };
                 };
             })
@@ -107,6 +116,7 @@
                 copilot-chat
                 presenting_nvim
                 which-key-nvim
+                bazel_nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];

@@ -21,8 +21,11 @@ local gopls_settings = {
             },
 }
 
-local go_bazel = require('lbnvim.go_bazel')
-go_bazel.add_bazel_settings(gopls_settings)
+local bazel_utils = require('bazel_nvim.utils')
+if bazel_utils.is_bazel_project() then
+    local go_bazel = require('lbnvim.go_bazel')
+    go_bazel.add_bazel_settings(gopls_settings)
+end
 
 local servers_list = {
     lua_ls = {

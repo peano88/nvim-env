@@ -1,82 +1,76 @@
-vim.notify = require('notify')
+local vim = vim
+local notify = require('notify')
+local utils = require('lbnvim.utils')
 
-local function requirements()
-    local required_exec = { 'npm', 'node' }
+local function is_executable(executable)
+    return vim.fn.executable(executable) == 1
+end
 
-    for _, e in pairs(required_exec) do
-        if vim.fn.executable(e) ~= 1 then
-            vim.notify(e .. " not installed", "warn")
+local function check_requirements(required_exec)
+    for _, exec in pairs(required_exec) do
+        if not is_executable(exec) then
+            notify(exec .. " not installed", "warn")
             return false
         end
     end
     return true
 end
 
-if requirements() then
-    require('copilot').setup(
-        {
-            panel = {
-                enabled = true,
-                auto_refresh = false,
-                keymap = {
-                    jump_prev = "[[",
-                    jump_next = "]]",
-                    accept = "<CR>",
-                    refresh = "gr",
-                    open = "<M-CR>"
-                },
-                layout = {
-                    position = "bottom", -- | top | left | right
-                    ratio = 0.3
-                },
+local function setup_copilot()
+    require('copilot').setup({
+        panel = {
+            enabled = true,
+            auto_refresh = false,
+            keymap = {
+                jump_prev = "[[",
+                jump_next = "]]",
+                accept = "<CR>",
+                refresh = "gr",
+                open = "<M-CR>"
             },
-            suggestion = {
-                enabled = true,
-                auto_trigger = true,
-                debounce = 75,
-                keymap = {
-                    accept = "<M-l>",
-                    accept_word = false,
-                    accept_line = false,
-                    next = "<M-]>",
-                    prev = "<M-[>",
-                    dismiss = "<C-]>",
-                },
+            layout = {
+                position = "bottom",
+                ratio = 0.3
             },
-            filetypes = {
-                yaml = true,
-                markdown = true,
-                help = false,
-                gitcommit = false,
-                gitrebase = false,
-                hgcommit = false,
-                svn = false,
-                cvs = false,
-                ["."] = false,
+        },
+        suggestion = {
+            enabled = true,
+            auto_trigger = true,
+            debounce = 75,
+            keymap = {
+                accept = "<M-l>",
+                accept_word = false,
+                accept_line = false,
+                next = "<M-]>",
+                prev = "<M-[>",
+                dismiss = "<C-]>",
             },
-            copilot_node_command = 'node', -- Node.js version must be > 18.x
-            server_opts_overrides = {},
-        })
+        },
+        filetypes = {
+            yaml = true,
+            markdown = true,
+            help = false,
+            gitcommit = false,
+            gitrebase = false,
+            hgcommit = false,
+            svn = false,
+            cvs = false,
+            ["."] = false,
+        },
+        copilot_node_command = 'node',
+        server_opts_overrides = {},
+    })
+
+    require('CopilotChat').setup()
 
     vim.keymap.set('n', '<leader>cc', function()
-        if vim.fn.winnr('$') == 1 then
-            vim.cmd.vsplit()
-        end
-        vim.cmd.wincmd('l')
-        if vim.api.nvim_get_mode().mode == 'v' then
-            local bufnr = vim.api.nvim_get_current_buf()
-            local start_pos = vim.api.nvim_buf_get_mark(bufnr, "<")
-            local end_pos = vim.api.nvim_buf_get_mark(bufnr, ">")
-            local lines = vim.api.nvim_buf_get_lines(bufnr, start_pos[1] - 1, end_pos[1], false)
-            local selected_text = table.concat(lines, "\n")
-            vim.cmd.CopilotChat(selected_text)
-        else
-            local user_input = vim.fn.input("Copilot prompt > ")
-            vim.cmd.CopilotChat(user_input)
+        local input = vim.fn.input("Ask Copilot: ")
+        if input ~= "" then
+            vim.cmd("CopilotChat " .. input)
         end
     end)
+end
 
-    vim.keymap.set('v', '<leader>cc', function()
-        print("visual mode")
-    end)
+if check_requirements({ 'npm', 'node' }) then
+    setup_copilot()
 end

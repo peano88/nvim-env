@@ -11,8 +11,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 vim.keymap.set("n", "<leader>gf", vim.cmd.GoTestFunc)
 vim.keymap.set("n", "<leader>gl", vim.cmd.GoLint)
-
--- bazel lsp hack
--- Function to check for the presence of go.mod file in the parent directories
+vim.keymap.set("n", "<leader>gi", vim.cmd.GoImplements)
 
 
