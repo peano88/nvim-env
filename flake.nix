@@ -117,6 +117,7 @@
                 presenting_nvim
                 which-key-nvim
                 bazel_nvim
+                oil-nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];
