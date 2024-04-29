@@ -1,6 +1,5 @@
 local vim = vim
 local notify = require('notify')
-local utils = require('lbnvim.utils')
 
 local function is_executable(executable)
     return vim.fn.executable(executable) == 1
@@ -64,10 +63,10 @@ local function setup_copilot()
     require('CopilotChat').setup()
 
     vim.keymap.set('n', '<leader>cc', function()
-        local input = vim.fn.input("Ask Copilot: ")
-        if input ~= "" then
-            vim.cmd("CopilotChat " .. input)
-        end
+            vim.cmd("CopilotChatOpen")
+    end)
+    vim.keymap.set('n', '<leader>ct', function()
+            vim.cmd("CopilotChatTest")
     end)
 end
 
