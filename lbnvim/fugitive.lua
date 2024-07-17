@@ -1,19 +1,12 @@
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git);
-vim.keymap.set("n", "<leader>gp", function ()
-    vim.cmd.Git [[ pull --rebase ]]
-end)
-vim.keymap.set("n", "<leader>gr", function ()
-    vim.cmd.split()
-    vim.api.nvim_command("term git review")
-end)
-
 local wk = require("which-key")
 
-wk.register({
-    g = {
-        name = "Git",
-        s = { "Status" },
-        p = { "Pull rebase" },
-        r = { "Review" },
-    }
-}, { prefix = "<leader>" })
+wk.add({
+    { "<leader>g",  group = "Git" },
+    { "<leader>gl", "<cmd>Git pull<cr>",    desc = "Pull rebase" },
+    { "<leader>gp", "<cmd>Git push<cr>",    desc = "Push" },
+    { "<leader>gr", function()
+        vim.cmd.split()
+        vim.api.nvim_command("term git review")
+    end, desc = "Review" },
+    { "<leader>gs", "<cmd>Git<cr>",  desc = "Status" },
+})

@@ -101,6 +101,7 @@
                   p.tree-sitter-go
                   p.tree-sitter-dockerfile
                   p.tree-sitter-bash
+                  p.tree-sitter-diff
                 ]))
                 tokyonight-nvim
                 vim-fugitive
@@ -118,6 +119,7 @@
                 which-key-nvim
                 bazel_nvim
                 oil-nvim
+                mini-nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];

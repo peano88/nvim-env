@@ -1,15 +1,3 @@
-local dap = require('dap')
-
-dap.adapters.cppdbg = {
-    id = 'cppdbg',
-    type = 'executable',
-    command = '/home/dummo/.vscode-server/extensions/ms-vscode.cpptools-1.13.9-linux-x64/debugAdapters/bin/OpenDebugAD7',
-}
-
-if vim.fn.filereadable('.vscode/launch.json') then
-    require('dap.ext.vscode').load_launchjs(nil, { cppdbg = { 'c', 'cpp' } })
-end
-
 vim.keymap.set('n', '<F5>', function() require('dap').continue() end)
 vim.keymap.set('n', '<F10>', function() require('dap').step_over() end)
 vim.keymap.set('n', '<F11>', function() require('dap').step_into() end)
