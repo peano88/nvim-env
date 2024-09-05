@@ -1,15 +1,15 @@
 local telescope = require('telescope')
 local builtin = require('telescope.builtin')
 local telescopeConfig = require("telescope.config")
+local utils = require("lbnvim.utils")
 
 -- Clone the default Telescope configuration
-local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+local vimgrep_arguments = {}
+for _,v in ipairs(telescopeConfig.values.vimgrep_arguments) do
+    table.insert(vimgrep_arguments, v)
+end
 
--- I want to search in hidden/dot files.
-table.insert(vimgrep_arguments, "--hidden")
--- I don't want to search in the `.git` directory.
-table.insert(vimgrep_arguments, "--glob")
-table.insert(vimgrep_arguments, "!**/.git/*")
+utils.insert_if_not_exists(vimgrep_arguments, "--hidden", "--glob", "!**/.git/*")
 
 telescope.setup({
 	defaults = {
@@ -40,6 +40,14 @@ vim.keymap.set('n', '<leader>fs', function()
 end)
 vim.keymap.set('n', '<leader>fw', function()
     builtin.grep_string({search = vim.fn.expand('<cword>')})
+end)
+
+-- grep in selected folder
+vim.keymap.set('n', '<leader>fr', function()
+    -- curernt file directory
+    local current_dir = vim.fn.expand('%:p:h')
+    local dir = vim.fn.input("Folder: ", current_dir)
+    builtin.live_grep({ glob_pattern = "!.git/*", cwd = dir})
 end)
 
 vim.api.nvim_create_autocmd("User", {

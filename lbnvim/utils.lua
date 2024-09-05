@@ -86,6 +86,21 @@ function M.issue_silent_command(command)
     return result
 end
 
+function M.insert_if_not_exists(tbl,...)
+    local values = {...}
+    local function insert_if_not_exists_single(value)
+        for _, v in pairs(tbl) do
+            if v == value then
+                return
+            end
+        end
+        table.insert(tbl, value)
+    end
+    for _, v in pairs(values) do
+        insert_if_not_exists_single(v)
+    end
+end
+
 function Test_get_relative_directory()
     local path = '/home/user/project/src/main.go'
     local relative_to = '/home/user/project'
