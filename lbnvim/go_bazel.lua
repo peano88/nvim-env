@@ -18,6 +18,12 @@ end
 
 function M.add_bazel_settings(settings)
 
+    -- check if deactivated by env variable
+    if os.getenv("GO_BAZEL_DISABLE") == "1" then
+        require('notify')("go Bazel disabled by env variable")
+        return
+    end
+
     local go_packages_driver_path = get_bazel_enabler()
     if go_packages_driver_path then
         require('notify')("go Bazel found")

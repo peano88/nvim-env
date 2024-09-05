@@ -10,4 +10,6 @@ wk.add(
         { "<leader>bs", "<cmd>:BazelTestSelect<cr>",  desc = "Run tests selecting the folder" },
         { "<leader>bt", "<cmd>:BazelTest<cr>",        desc = "Run tests of the same level of the opened file" },
         { "<leader>bw", "<cmd>:BazelQuerySelect<cr>", desc = "Run query selecting the folder" },
+        { "<leader>br", "<cmd>:BazelRun<cr>", desc = "Run run" },
+        { "<leader>bb", "<cmd>:BazelBuild<cr>", desc = "Run build" },
     })

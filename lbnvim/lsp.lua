@@ -18,6 +18,7 @@ local gopls_settings = {
                     parameterNames = true,
                     angeVariableTypes = true,
                 },
+                -- verboseOutput = true,
             },
 }
 
@@ -48,7 +49,8 @@ local servers_list = {
     },
     gopls = {
         exec = 'gopls',
-        settings = gopls_settings
+        settings = gopls_settings,
+--        cmd = { 'gopls', '-logfile=/tmp/gopls.log' },
     },
     golangci_lint_ls = {
         exec = 'golangci-lint-langserver',
