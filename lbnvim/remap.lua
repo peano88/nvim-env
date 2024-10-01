@@ -53,3 +53,5 @@ vim.keymap.set("n", "<leader>wf", function()
     print(vim.fn.expand('%:p'))
 end)
 
+-- close all buffers but the current one
+vim.keymap.set("n", "<leader>cb", "<cmd>%bd|e#<CR>")
