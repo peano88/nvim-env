@@ -1,4 +1,8 @@
-require("oil").setup()
+require("oil").setup({
+    keymaps = {
+        ["q"] = "actions.close",
+    },
+})
 
 -- whichkey
 require("which-key").add({
