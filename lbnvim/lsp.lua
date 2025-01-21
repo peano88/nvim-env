@@ -91,6 +91,9 @@ local servers_list = {
             }
         }
     },
+    hls = {
+        exec = 'haskell-language-server-wrapper',
+    },
 
 
 }

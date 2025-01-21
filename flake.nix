@@ -102,6 +102,7 @@
                   p.tree-sitter-dockerfile
                   p.tree-sitter-bash
                   p.tree-sitter-diff
+                  p.tree-sitter-haskell
                 ]))
                 tokyonight-nvim
                 vim-fugitive
