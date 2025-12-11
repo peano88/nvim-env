@@ -5,12 +5,9 @@
       url = "github:nixos/nixpkgs/nixpkgs-unstable";
     };
     flake-utils.url = "github:numtide/flake-utils";
+    nixneovimplugins.url = "github:NixNeovim/NixNeovimPlugins";
     #vim-extra-plugins.url = "github:m15a/nixpkgs-vim-extra-plugins";
-    vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins";
-    copilot_chat = {
-        url = "github:CopilotC-Nvim/CopilotChat.nvim";
-        flake = false;
-    };
+    #vim-extra-plugins.url = "github:developing-today-forks/nixpkgs-vim-extra-plugins";
     presenting_nvim = {
         url = "github:sotte/presenting.nvim";
         flake = false;
@@ -25,14 +22,9 @@
       let pkgs = import nixpkgs {
         inherit system;
         overlays = [
-            inputs.vim-extra-plugins.overlays.default
+            inputs.nixneovimplugins.overlays.default
             (self: super: {
                 vimPlugins = super.vimPlugins // {
-                    copilot-chat = super.vimUtils.buildVimPlugin {
-                        pname = "copilot-chat.nvim";
-                        name = "copilot-chat.nvim";
-                        src = inputs.copilot_chat;
-                    };
                     presenting_nvim = super.vimUtils.buildVimPlugin {
                         pname = "presenting.nvim";
                         name = "presenting.nvim";
@@ -115,12 +107,13 @@
                 vim-bazel
                 vim-maktaba
                 copilot-lua
-                copilot-chat
+                pkgs.vimExtraPlugins.CopilotChat-nvim
                 presenting_nvim
                 which-key-nvim
                 bazel_nvim
                 oil-nvim
                 mini-nvim
+                plenary-nvim
               ];
               opt = with pkgs.vimPlugins; [
               ];

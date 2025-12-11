@@ -1,5 +1,3 @@
-local lspconfig = require('lspconfig')
-
 -- Neovim hasn't added foldingRange to default capabilities, users must add it manually
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.foldingRange = {
@@ -8,18 +6,18 @@ capabilities.textDocument.foldingRange = {
 }
 
 local gopls_settings = {
-            gopls = {
-                hints = {
-                    assignVariableTypes = true,
-                    compositeLiteralFields = true,
-                    compositeLiteralTypes = true,
-                    constantValues = true,
-                    functionTypeParameters = true,
-                    parameterNames = true,
-                    angeVariableTypes = true,
-                },
-                -- verboseOutput = true,
-            },
+    gopls = {
+        hints = {
+            assignVariableTypes = true,
+            compositeLiteralFields = true,
+            compositeLiteralTypes = true,
+            constantValues = true,
+            functionTypeParameters = true,
+            parameterNames = true,
+            angeVariableTypes = true,
+        },
+        -- verboseOutput = true,
+    },
 }
 
 local bazel_utils = require('bazel_nvim.utils')
@@ -50,7 +48,7 @@ local servers_list = {
     gopls = {
         exec = 'gopls',
         settings = gopls_settings,
---        cmd = { 'gopls', '-logfile=/tmp/gopls.log' },
+        --        cmd = { 'gopls', '-logfile=/tmp/gopls.log' },
     },
     golangci_lint_ls = {
         exec = 'golangci-lint-langserver',
@@ -76,7 +74,7 @@ local servers_list = {
     },
     jsonls = {
         exec = 'vscode-json-languageserver',
-        cmd = {'vscode-json-languageserver', '--stdio'}
+        cmd = { 'vscode-json-languageserver', '--stdio' }
     },
     sqls = {
         exec = 'sqls',
@@ -178,23 +176,30 @@ local on_attach_server = function(client, bufnr)
     vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
 end
 
+local enabled_server_list = {}
 for server, values in pairs(servers_list) do
     if (values.exec == nil or values.exec == '' or vim.fn.executable(values.exec) == 1) then
-
         local server_config = {
             settings = values.settings,
             capabilities = capabilities,
-            on_attach = on_attach_server
         }
 
-    -- override cmd
-    if (values.cmd ~= nil) then
-        server_config.cmd = values.cmd
-    end
+        -- override cmd
+        if (values.cmd ~= nil) then
+            server_config.cmd = values.cmd
+        end
 
-        lspconfig[server].setup(server_config)
+        vim.lsp.config(server, server_config)
+        table.insert(enabled_server_list, server)
     end
+end
 
+if next(enabled_server_list) ~= nil then
+    vim.lsp.enable(enabled_server_list)
+    local autocmd = vim.api.nvim_create_autocmd
+    autocmd("LspAttach", {
+		callback = on_attach_server
+	})
 end
 
 
