@@ -36,12 +36,10 @@ function M.add_bazel_settings(settings)
         gopls_settings['env'] = {
             GOPACKAGESDRIVER = go_packages_driver_path
         }
-        gopls_settings['directoryFilters'] = {
-            "-bazel-bin",
-            "-bazel-out",
-            "-bazel-testlogs",
-            "-bazel-"..project_name,
-        }
+        table.insert(gopls_settings['directoryFilters'], "-bazel-bin")
+        table.insert(gopls_settings['directoryFilters'], "-bazel-out")
+        table.insert(gopls_settings['directoryFilters'], "-bazel-testlogs")
+        table.insert(gopls_settings['directoryFilters'], "-bazel-"..project_name)
         return
     end
     require('notify')("go Bazel not found")

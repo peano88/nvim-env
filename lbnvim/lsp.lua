@@ -5,6 +5,14 @@ capabilities.textDocument.foldingRange = {
     lineFoldingOnly = true
 }
 
+
+local gopls_directory_filters = {}
+local gopls_env_filters = os.getenv("GO_PLS_DIRECTORY_FILTERS")
+if gopls_env_filters then
+    for filter in string.gmatch(gopls_env_filters, '([^,]+)') do
+        table.insert(gopls_directory_filters, filter)
+    end
+end
 local gopls_settings = {
     gopls = {
         hints = {
@@ -16,6 +24,7 @@ local gopls_settings = {
             parameterNames = true,
             angeVariableTypes = true,
         },
+        directoryFilters = gopls_directory_filters,
         -- verboseOutput = true,
     },
 }
@@ -198,8 +207,8 @@ if next(enabled_server_list) ~= nil then
     vim.lsp.enable(enabled_server_list)
     local autocmd = vim.api.nvim_create_autocmd
     autocmd("LspAttach", {
-		callback = on_attach_server
-	})
+        callback = on_attach_server
+    })
 end
 
 
