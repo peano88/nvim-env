@@ -99,15 +99,12 @@
                 tokyonight-nvim
                 vim-fugitive
                 harpoon
-                nvim-ufo
-                pkgs.vimExtraPlugins.guihua-lua
+                guihua-lua
                 refactoring-nvim
                 glow-nvim
                 nvim-notify
                 vim-bazel
                 vim-maktaba
-                copilot-lua
-                pkgs.vimExtraPlugins.CopilotChat-nvim
                 presenting_nvim
                 which-key-nvim
                 bazel_nvim

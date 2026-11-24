@@ -7,7 +7,7 @@ require('refactoring').setup({
     }
 })
 
-local telescope_module = require('telescope')
-telescope_module.load_extension('refactoring')
-
-vim.keymap.set({'n', 'x'},'<leader>rr', function() telescope_module.extensions.refactoring.refactors() end)
+vim.keymap.set({'n', 'x'},'<leader>rr', function()
+  -- this keymap doesn't select any textobject by default, so you may need to provide one each time you use it.
+  require("refactoring").select_refactor()
+end, { desc = "Select refactor" })
